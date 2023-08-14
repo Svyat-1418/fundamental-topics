@@ -1,11 +1,23 @@
 // this
 
+// ================== MODE ===================
+
 // !use strict ---> object
 // use strict ---> any data type
 
+//'use strict';
+
+// function test() {
+//   console.log(this)
+// }
+//
+// test.call(10)
+
+// ==================================================
+
 // 1. Global Scope ---> global object(window - browser)
 // 2. Inside functions ( not arrow functions ) ---> как именно вызывается функция!!!
-//    -- вызвана с помощью ключевого слова new
+//    -- вызвана с помощью ключевого слова new --> this === {}
 //    -- с помощью методов call apply bind
 //    -- вызывается от имени объекта ---> this === то что слева от точки
 //    -- simple call ===> this === undefined ( !use strict === window )
@@ -23,66 +35,70 @@
 
 // =============== INSIDE FUNCTIONS =============
 
-// function foo() {
+// function example() {
 //   console.log(this)
 // }
-
-//foo() // -> undefined === window
+//
+// example() // -> undefined === window
 
 // const user = {
-//   foo: foo
+//   example
 // }
+//
+// user.example() // user
 
-//user.foo() // user
+ const svyat = {
+  name: "Svyat",
+  showName() {
+    console.log(this.name)
+  }
+}
 
-// const svyat = {
-//   name: "Svyat",
-//   showName() {
-//     console.log(this.name)
-//   }
-// }
-
-// const vika = {
-//   name: "Vika",
-//   showName: svyat.showName
-// }
+const vika = {
+  name: "Vika",
+  showName: svyat.showName
+}
 
 //svyat.showName() // Svyat
 //vika.showName() // Vika
 
 // =============== CALL APPLY BIND ==========
 
-// function foo(a, b) {
-//   console.log(a, b)
-//   console.log(this)
-// }
-//
-// const svyat = {
-//   name: "Svyat"
-// }
-//
-// const vika = {
-//   name: "Vika"
-// }
+function view(a, b) {
+  console.log(a, b)
+  console.log(this)
+}
 
-//foo.call(svyat, 1, 2) // 1 2 svyat
-//foo.apply(vika, [1, 2]) // 1 2 vika
+//view.call(svyat, 1, 2) // 1 2 svyat
+//view.apply(vika, [1, 2]) // 1 2 vika
 
-//const fooWrapper = foo.bind(svyat)
-//fooWrapper()
-//foo.bind(vika)()
+//const viewWrapper = view.bind(svyat)
+//viewWrapper()
+//view.bind(vika)()
 
-//foo.bind(svyat, 1, 2)()
-//foo.bind(vika, 1)(2)
+//view.bind(svyat, 1, 2)() // 1 2 svyat
+//view.bind(vika, 1)(2) // 1 2 vika
 
-//
+function losingContext(someFn) {
+  someFn()
+}
 
-//foo(svyat.showAge) // undefined --> потеря контекста
-//foo(svyat.showAge.bind(svyat)) // контекст привязан
+//losingContext(svyat.showName) // undefined --> потеря контекста
+//losingContext(svyat.showName.bind(svyat)) // Svyat --> контекст привязан
 
-// setTimeout(svyat.showAge, 300) // undefined
-// setTimeout(svyat.showAge.bind(svyat), 300) // 23
-// setTimeout( () => svyat.showAge(), 300) // 23
+const john = {
+  age: 53,
+  showAge() {
+    console.log(this.age)
+  }
+}
+
+// setTimeout(john.showName, 300) // undefined
+// setTimeout(john.showAge.bind(john), 300) // 53
+// setTimeout( () => john.showAge(), 300) // 53
+
+const globalShowName = john.showAge
+globalShowName() // undefined
 
 // ================= KEYWORD NEW =================
 
@@ -142,13 +158,13 @@
 //   }
 // }
 
-const student = {
-  group: "52",
-  students: ["Max", "Katya", "Svyat"],
-  showGroupStudent() {
-    this.students.forEach( stud => {
-      console.log(this.group + "" + stud)
-    })
-  }
-}
-student.showGroupStudent()
+// const student = {
+//   group: "52",
+//   students: ["Max", "Katya", "Svyat"],
+//   showGroupStudent() {
+//     this.students.forEach( stud => {
+//       console.log(this.group + "" + stud)
+//     })
+//   }
+// }
+// student.showGroupStudent()
