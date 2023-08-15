@@ -56,6 +56,21 @@ console.log(ron)
 
 // ===========================================================
 
+// ===========================================================
+
+function Animal(type) {
+    this.type = type
+}
+
+const lion = new Animal("cat")
+console.log(lion)
+const python = new lion.constructor("snake")
+console.log(python)
+
+// new Animal( ... ) === new lion.constructor( ... )
+
+// ===========================================================
+
 console.log(Object.__proto__ === Function.prototype)
 
 console.log(Object.prototype.__proto__ === null)
