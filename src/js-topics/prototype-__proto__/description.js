@@ -18,13 +18,11 @@
 function Person(name) {
     this.name = name
 }
-const john = new Person("John")
+const hermione = new Person("Hermione")
 
-// fConstructor === person
 // Person.prototype --->
 //                         ----> { constructor: fConstructor } <-- default
-// (true).__proto__ --->
-// fConstructor === Boolean
+// hermione.__proto__ --->
 
 // ===========================================================
 
